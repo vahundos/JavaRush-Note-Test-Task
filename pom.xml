@@ -7,12 +7,14 @@
     <groupId>com.vahundos</groupId>
     <artifactId>javarush-test-task-note</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <jdk.version>1.8</jdk.version>
         <spring.version>5.0.0.RELEASE</spring.version>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencies>
