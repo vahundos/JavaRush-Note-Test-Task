@@ -20,7 +20,7 @@
             <td>${note.name}</td>
             <td>${note.description}</td>
             <td>${note.done}</td>
-            <td>${note.createdDate}</td>
+            <td>${note.createdDate.format(dateFormatter)}</td>
         </tr>
     </c:forEach>
 </table>
