@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/")
 public class NotesController {
 
     @Autowired
@@ -29,5 +28,11 @@ public class NotesController {
     @Lazy
     private DateTimeFormatter getFormatter() {
         return DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy");
+    }
+
+    @RequestMapping(path = "/add-node", method = RequestMethod.GET)
+    public String showAddNotePage(Model model) {
+
+        return "add-update-node";
     }
 }
