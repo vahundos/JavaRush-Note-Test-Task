@@ -1,7 +1,10 @@
 package com.vahundos.javarush.testtask.note.configuration;
 
 import org.springframework.lang.Nullable;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Nullable
@@ -16,5 +19,11 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     protected String[] getServletMappings() {
         return new String[] {"/"};
+    }
+
+    @Nullable
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[] {new CharacterEncodingFilter("UTF-8", true)};
     }
 }

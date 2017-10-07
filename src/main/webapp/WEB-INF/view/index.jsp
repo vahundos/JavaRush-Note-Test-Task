@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Notes list</h2>
-<form action="${pageContext.request.contextPath}/add-node" method="get">
+<form action="${pageContext.request.contextPath}/add-note" method="get">
     <button type="submit">Add note</button>
 </form>
 <table border="1">
