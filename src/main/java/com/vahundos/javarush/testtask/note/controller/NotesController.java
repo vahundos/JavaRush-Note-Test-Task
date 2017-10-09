@@ -43,7 +43,6 @@ public class NotesController {
 
     @RequestMapping(path = "/add-note", method = RequestMethod.POST)
     public String addNote(@ModelAttribute("noteObj") Note note) {
-        note.setDone(false);
         note.setCreatedDate(LocalDateTime.now());
         noteService.add(note);
         return "redirect:/";
