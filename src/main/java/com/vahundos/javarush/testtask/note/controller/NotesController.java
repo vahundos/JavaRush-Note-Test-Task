@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,5 +62,10 @@ public class NotesController {
     public String removeNote(@RequestParam(name = "id") long id) {
         noteService.remove(id);
         return "redirect:/";
+    }
+
+    @ExceptionHandler({Exception.class, RuntimeException.class})
+    public String showErrorPage() {
+        return "error";
     }
 }
