@@ -40,4 +40,18 @@ public class NoteDaoImp implements NoteDao {
         TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery("from Note", Note.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<Note> getAllDoneNotes() {
+        TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery("from Note N " +
+                "WHERE N.done = 1", Note.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Note> getAllNotDoneNotes() {
+        TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery("from Note N " +
+                "WHERE N.done = 0", Note.class);
+        return query.getResultList();
+    }
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
     <title>Notes</title>
@@ -7,7 +8,23 @@
 <body>
 <h2>Notes list</h2>
 <form action="${pageContext.request.contextPath}/add-note" method="get">
-    <button type="submit">Add note</button>
+    <input type="submit" value="Add note"/>
+</form>
+<form action="${pageContext.request.contextPath}/" method="get">
+    <table>
+        <tr>
+            <th>
+                <select name="filterType">
+                    <c:forEach var="pair" items="${filterMap}">
+                        <option value="${pair.key}">${pair.value}</option>
+                    </c:forEach>
+                </select>
+            </th>
+            <th>
+                <input type="submit" value="Submit">
+            </th>
+        </tr>
+    </table>
 </form>
 <table border="1">
     <tr>

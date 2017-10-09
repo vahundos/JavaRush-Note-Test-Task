@@ -43,4 +43,16 @@ public class NoteServiceImp implements NoteService {
     public List<Note> getAllNotes() {
         return noteDao.getAllNotes();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Note> getAllDoneNotes() {
+        return noteDao.getAllDoneNotes();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Note> getAllNotDoneNotes() {
+        return noteDao.getAllNotDoneNotes();
+    }
 }

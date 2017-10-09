@@ -10,4 +10,6 @@ public interface NoteService {
     void remove(long id);
     Note getNoteById(long id);
     List<Note> getAllNotes();
+    List<Note> getAllDoneNotes();
+    List<Note> getAllNotDoneNotes();
 }

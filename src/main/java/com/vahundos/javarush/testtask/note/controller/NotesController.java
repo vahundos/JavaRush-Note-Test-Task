@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
 public class NotesController {
@@ -18,9 +21,17 @@ public class NotesController {
     @Autowired
     private NoteService noteService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String showAllNotes(Model model) {
-        model.addAttribute("notes", noteService.getAllNotes());
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public String showAllNotes(@RequestParam(name = "filterType", required = false) String filterType, Model model) {
+        if (filterType == null || filterType.equals("ALL"))
+            model.addAttribute("notes", noteService.getAllNotes());
+        else if (filterType.equals("DONE"))
+            model.addAttribute("notes", noteService.getAllDoneNotes());
+        else if (filterType.equals("NOT_DONE"))
+            model.addAttribute("notes", noteService.getAllNotDoneNotes());
+        else
+            return "error";
+        model.addAttribute("filterMap", getFilterMap());
         model.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
         return "index";
     }
@@ -29,6 +40,16 @@ public class NotesController {
     @Lazy
     private DateTimeFormatter getFormatter() {
         return DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy");
+    }
+
+    @Bean
+    @Lazy
+    private Map<String, String> getFilterMap() {
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("ALL", "all");
+        filterMap.put("DONE", "done");
+        filterMap.put("NOT_DONE", "not done");
+        return filterMap;
     }
 
     @RequestMapping(path = "/add-note", method = RequestMethod.GET)
