@@ -16,6 +16,7 @@
         <th>description</th>
         <th>done</th>
         <th>createdDate</th>
+        <th></th>
     </tr>
     <c:forEach var="note" items="${notes}">
         <tr>
@@ -24,6 +25,7 @@
             <td>${note.description}</td>
             <td>${note.done}</td>
             <td>${note.createdDate.format(dateFormatter)}</td>
+            <td><a href="/update-note?id=${note.id}">edit</a></td>
         </tr>
     </c:forEach>
 </table>

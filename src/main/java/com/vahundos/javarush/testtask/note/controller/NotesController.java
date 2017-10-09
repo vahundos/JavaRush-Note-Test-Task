@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,16 +36,29 @@ public class NotesController {
 
     @RequestMapping(path = "/add-note", method = RequestMethod.GET)
     public String showAddNotePage(Model model) {
-        model.addAttribute("noteForm", new Note());
-        return "add-update-node";
+        model.addAttribute("noteObj", new Note());
+        model.addAttribute("postPath", "add-note");
+        return "add-update-note";
     }
 
     @RequestMapping(path = "/add-note", method = RequestMethod.POST)
-    public String submit(@ModelAttribute("noteForm") Note note, Model model) {
+    public String addNote(@ModelAttribute("noteObj") Note note) {
         note.setDone(false);
         note.setCreatedDate(LocalDateTime.now());
         noteService.add(note);
+        return "redirect:/";
+    }
 
-        return "redirect:index";
+    @RequestMapping(path = "/update-note", method = RequestMethod.GET)
+    public String showUpdateNotePage(@RequestParam(name = "id") long id, Model model) {
+        model.addAttribute("noteObj", noteService.getNoteById(id));
+        model.addAttribute("postPath", "update-note");
+        return "add-update-note";
+    }
+
+    @RequestMapping(path = "/update-note", method = RequestMethod.POST)
+    public String updateNote(@ModelAttribute("noteObj") Note note) {
+        noteService.update(note);
+        return "redirect:/";
     }
 }
