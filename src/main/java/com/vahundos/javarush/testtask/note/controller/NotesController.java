@@ -61,4 +61,10 @@ public class NotesController {
         noteService.update(note);
         return "redirect:/";
     }
+
+    @RequestMapping(path = "/remove-note", method = RequestMethod.GET)
+    public String removeNote(@RequestParam(name = "id") long id) {
+        noteService.remove(id);
+        return "redirect:/";
+    }
 }
