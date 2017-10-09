@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -22,16 +23,20 @@ public class NotesController {
     private NoteService noteService;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String showAllNotes(@RequestParam(name = "filterType", required = false) String filterType, Model model) {
-        if (filterType == null || filterType.equals("ALL"))
+    public String showAllNotes(@CookieValue(name = "filterType", defaultValue = "ALL") String filterTypeCookie,
+                               Model model, HttpServletResponse response) {
+
+        if (filterTypeCookie.equals("ALL"))
             model.addAttribute("notes", noteService.getAllNotes());
-        else if (filterType.equals("DONE"))
+        else if (filterTypeCookie.equals("DONE"))
             model.addAttribute("notes", noteService.getAllDoneNotes());
-        else if (filterType.equals("NOT_DONE"))
+        else if (filterTypeCookie.equals("NOT_DONE"))
             model.addAttribute("notes", noteService.getAllNotDoneNotes());
-        else
+        else {
+            response.addCookie(new Cookie("filterType", "ALL"));
             return "error";
-        model.addAttribute("filterMap", getFilterMap());
+        }
+        model.addAttribute("filterMap", getFilterMap(filterTypeCookie));
         model.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
         return "index";
     }
@@ -44,11 +49,22 @@ public class NotesController {
 
     @Bean
     @Lazy
-    private Map<String, String> getFilterMap() {
+    private Map<String, String> getFilterMap(String filterTypeCookie) {
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("ALL", "all");
-        filterMap.put("DONE", "done");
-        filterMap.put("NOT_DONE", "not done");
+        if ("ALL".equals(filterTypeCookie))
+            filterMap.put("\"" + "ALL" + "\" selected", "all");
+        else
+            filterMap.put("ALL", "all");
+
+        if ("DONE".equals(filterTypeCookie))
+            filterMap.put("\"" + "DONE" + "\" selected", "done");
+        else
+            filterMap.put("DONE", "done");
+
+        if ("NOT_DONE".equals(filterTypeCookie))
+            filterMap.put("\"" + "NOT_DONE" + "\" selected", "not done");
+        else
+            filterMap.put("NOT_DONE", "not done");
         return filterMap;
     }
 

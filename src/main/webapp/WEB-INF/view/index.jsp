@@ -10,22 +10,26 @@
 <form action="${pageContext.request.contextPath}/add-note" method="get">
     <input type="submit" value="Add note"/>
 </form>
-<form action="${pageContext.request.contextPath}/" method="get">
-    <table>
-        <tr>
-            <th>
-                <select name="filterType">
-                    <c:forEach var="pair" items="${filterMap}">
-                        <option value="${pair.key}">${pair.value}</option>
-                    </c:forEach>
-                </select>
-            </th>
-            <th>
-                <input type="submit" value="Submit">
-            </th>
-        </tr>
-    </table>
-</form>
+<table>
+    <tr>
+        <th>
+            <select id="filterType">
+                <c:forEach var="pair" items="${filterMap}">
+                    <option value=${pair.key}>${pair.value}</option>
+                </c:forEach>
+            </select>
+        </th>
+        <th>
+            <input type="button" value="Submit" onclick="setCookie()">
+            <script type="text/javascript">
+                setCookie = function () {
+                    document.cookie = "filterType=" + document.getElementById("filterType").value;
+                    location.reload(true);
+                }
+            </script>
+        </th>
+    </tr>
+</table>
 <table border="1">
     <tr>
         <th>id</th>
