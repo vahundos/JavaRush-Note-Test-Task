@@ -10,4 +10,5 @@ public interface NoteService {
     void remove(long id);
     Note getNoteById(long id);
     List<Note> getAllNotes(String filter, String sort);
+    long getNoteCount();
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -51,5 +50,11 @@ public class NoteDaoImp implements NoteDao {
 
         TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery(sql, Note.class);
         return query.getResultList();
+    }
+
+    @Override
+    public long getNoteCount() {
+        return sessionFactory.getCurrentSession().createQuery("SELECT COUNT(*) FROM Note",
+                Long.class).getSingleResult();
     }
 }

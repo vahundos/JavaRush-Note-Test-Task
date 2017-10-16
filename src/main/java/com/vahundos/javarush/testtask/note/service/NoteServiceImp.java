@@ -44,4 +44,9 @@ public class NoteServiceImp implements NoteService {
         return noteDao.getAllNotes(filter, sort);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public long getNoteCount() {
+        return noteDao.getNoteCount();
+    }
 }
