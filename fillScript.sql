@@ -206,6 +206,6 @@ INSERT INTO note (name, description, done, createdDate) VALUES ('NGC 5750',
                                                                 '2017-10-13 18:50:59');
 
 INSERT INTO note (name, description, done, createdDate) VALUES ('20 Малого Льва',
-                                                                'Return the minute from the argument',
+                                                                '20 Малого Льва и т.д.',
                                                                 0,
                                                                 '2017-10-13 01:50:59');

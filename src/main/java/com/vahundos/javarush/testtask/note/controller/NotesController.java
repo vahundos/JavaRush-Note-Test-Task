@@ -72,9 +72,9 @@ public class NotesController {
     @Lazy
     private Map<String, String> getFilterMap() {
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("ALL", "all");
-        filterMap.put("DONE", "done");
-        filterMap.put("NOT_DONE", "not done");
+        filterMap.put("ALL", "Все");
+        filterMap.put("DONE", "Только выполненые");
+        filterMap.put("NOT_DONE", "Только невыполненые");
         return filterMap;
     }
 
@@ -82,8 +82,8 @@ public class NotesController {
     @Lazy
     private Map<String, String> getSortMap() {
         Map<String, String> sortMap = new LinkedHashMap<>();
-        sortMap.put("NEW", "new at start");
-        sortMap.put("OLD", "old at start");
+        sortMap.put("NEW", "Сначала новые");
+        sortMap.put("OLD", "Сначала старые");
         return sortMap;
     }
 
