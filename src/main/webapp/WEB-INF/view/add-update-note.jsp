@@ -13,19 +13,18 @@
             <form:hidden path="id"/>
             <tr>
                 <td>Name</td>
-                <td><form:input path="name"/></td>
+                <td><form:input path="name" maxlength="45"/></td>
             </tr>
             <tr>
                 <td>Description</td>
-                <td><form:textarea path="description" rows="5" cols="30"/></td>
+                <td><form:textarea path="description" rows="5" cols="30" maxlength="300"/></td>
             </tr>
             <tr>
                 <td>Done</td>
                 <td><form:checkbox path="done"/></td>
             </tr>
             <tr>
-                <td>Creation date</td>
-                <td><form:input path="createdDate"/></td>
+                <form:hidden path="createdDate"/>
             </tr>
         </table>
         <input type="submit" value="Submit"/>
