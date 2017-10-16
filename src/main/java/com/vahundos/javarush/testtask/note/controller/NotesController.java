@@ -24,20 +24,20 @@ public class NotesController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String showAllNotes(@CookieValue(name = "filterType", defaultValue = "ALL") String filterTypeCookie,
+                               @CookieValue(name = "sort", defaultValue = "NEW") String dateSortCookie,
                                Model model, HttpServletResponse response) {
 
-        if (filterTypeCookie.equals("ALL"))
-            model.addAttribute("notes", noteService.getAllNotes());
-        else if (filterTypeCookie.equals("DONE"))
-            model.addAttribute("notes", noteService.getAllDoneNotes());
-        else if (filterTypeCookie.equals("NOT_DONE"))
-            model.addAttribute("notes", noteService.getAllNotDoneNotes());
-        else {
+        if (!getFilterMap().containsKey(filterTypeCookie) || !getSortMap().containsKey(dateSortCookie)) {
             response.addCookie(new Cookie("filterType", "ALL"));
+            response.addCookie(new Cookie("sort", "NEW"));
             return "error";
         }
+        model.addAttribute("notes", noteService.getAllNotes(filterTypeCookie, dateSortCookie));
+
         model.addAttribute("currentFilter", filterTypeCookie);
+        model.addAttribute("currentSort", dateSortCookie);
         model.addAttribute("filterMap", getFilterMap());
+        model.addAttribute("sortMap", getSortMap());
         model.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
         return "index";
     }
@@ -56,6 +56,15 @@ public class NotesController {
         filterMap.put("DONE", "done");
         filterMap.put("NOT_DONE", "not done");
         return filterMap;
+    }
+
+    @Bean
+    @Lazy
+    private Map<String, String> getSortMap() {
+        Map<String, String> sortMap = new LinkedHashMap<>();
+        sortMap.put("NEW", "new at start");
+        sortMap.put("OLD", "old at start");
+        return sortMap;
     }
 
     @RequestMapping(path = "/add-note", method = RequestMethod.GET)

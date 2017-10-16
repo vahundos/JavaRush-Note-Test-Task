@@ -13,9 +13,22 @@
 <table>
     <tr>
         <th>
+            Filter
+        </th>
+        <th>
             <select id="filterType">
                 <c:forEach var="pair" items="${filterMap}">
                     <option value="${pair.key}" ${pair.key == currentFilter ? 'selected' : ''}>${pair.value}</option>
+                </c:forEach>
+            </select>
+        </th>
+        <th>
+            Sort
+        </th>
+        <th>
+            <select id="sortType">
+                <c:forEach var="pair" items="${sortMap}">
+                    <option value="${pair.key}" ${pair.key == currentSort ? 'selected' : ''}>${pair.value}</option>
                 </c:forEach>
             </select>
         </th>
@@ -24,6 +37,7 @@
             <script type="text/javascript">
                 setCookie = function () {
                     document.cookie = "filterType=" + document.getElementById("filterType").value;
+                    document.cookie = "sort=" + document.getElementById("sortType").value;
                     location.reload(true);
                 }
             </script>
