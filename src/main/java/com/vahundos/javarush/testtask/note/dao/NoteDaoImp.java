@@ -44,9 +44,9 @@ public class NoteDaoImp implements NoteDao {
             sql += "WHERE N.done = 0 ";
 
         if (sort.equals("OLD"))
-            sql += "ORDER BY N.createdDate DESC";
-        else if (sort.equals("NEW"))
             sql += "ORDER BY N.createdDate ASC";
+        else if (sort.equals("NEW"))
+            sql += "ORDER BY N.createdDate DESC";
 
         TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery(sql, Note.class);
         query.setFirstResult(first);
