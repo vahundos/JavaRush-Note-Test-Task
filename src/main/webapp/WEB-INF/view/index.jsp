@@ -15,7 +15,7 @@
         <th>
             <select id="filterType">
                 <c:forEach var="pair" items="${filterMap}">
-                    <option value=${pair.key}>${pair.value}</option>
+                    <option value="${pair.key}" ${pair.key == currentFilter ? 'selected' : ''}>${pair.value}</option>
                 </c:forEach>
             </select>
         </th>

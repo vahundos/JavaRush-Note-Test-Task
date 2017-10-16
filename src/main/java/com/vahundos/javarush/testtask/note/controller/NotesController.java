@@ -36,7 +36,8 @@ public class NotesController {
             response.addCookie(new Cookie("filterType", "ALL"));
             return "error";
         }
-        model.addAttribute("filterMap", getFilterMap(filterTypeCookie));
+        model.addAttribute("currentFilter", filterTypeCookie);
+        model.addAttribute("filterMap", getFilterMap());
         model.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
         return "index";
     }
@@ -49,22 +50,11 @@ public class NotesController {
 
     @Bean
     @Lazy
-    private Map<String, String> getFilterMap(String filterTypeCookie) {
+    private Map<String, String> getFilterMap() {
         Map<String, String> filterMap = new LinkedHashMap<>();
-        if ("ALL".equals(filterTypeCookie))
-            filterMap.put("\"" + "ALL" + "\" selected", "all");
-        else
-            filterMap.put("ALL", "all");
-
-        if ("DONE".equals(filterTypeCookie))
-            filterMap.put("\"" + "DONE" + "\" selected", "done");
-        else
-            filterMap.put("DONE", "done");
-
-        if ("NOT_DONE".equals(filterTypeCookie))
-            filterMap.put("\"" + "NOT_DONE" + "\" selected", "not done");
-        else
-            filterMap.put("NOT_DONE", "not done");
+        filterMap.put("ALL", "all");
+        filterMap.put("DONE", "done");
+        filterMap.put("NOT_DONE", "not done");
         return filterMap;
     }
 
