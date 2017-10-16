@@ -9,6 +9,6 @@ public interface NoteService {
     void update(Note note);
     void remove(long id);
     Note getNoteById(long id);
-    List<Note> getAllNotes(String filter, String sort);
-    long getNoteCount();
+    List<Note> getAllNotes(String filter, String sort, int first, int last);
+    long getNoteCount(String filter);
 }

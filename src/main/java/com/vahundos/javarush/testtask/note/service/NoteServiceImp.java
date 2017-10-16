@@ -40,13 +40,13 @@ public class NoteServiceImp implements NoteService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Note> getAllNotes(String filter, String sort) {
-        return noteDao.getAllNotes(filter, sort);
+    public List<Note> getAllNotes(String filter, String sort, int first, int last) {
+        return noteDao.getAllNotes(filter, sort, first, last);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public long getNoteCount() {
-        return noteDao.getNoteCount();
+    public long getNoteCount(String filter) {
+        return noteDao.getNoteCount(filter);
     }
 }

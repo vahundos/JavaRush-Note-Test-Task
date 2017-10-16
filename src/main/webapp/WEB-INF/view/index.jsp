@@ -67,6 +67,9 @@
             </tr>
         </c:forEach>
     </table>
+    <c:forEach var="page" begin="1" end="${pageCount}">
+        <a href="${pageContext.request.contextPath}/?page=${page}">${page} </a>
+    </c:forEach>
 </div>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class NoteDaoImp implements NoteDao {
     }
 
     @Override
-    public List<Note> getAllNotes(String filter, String sort) {
+    public List<Note> getAllNotes(String filter, String sort, int first, int last) {
         String sql = "from Note N ";
 
         if (filter.equals("DONE"))
@@ -49,12 +49,18 @@ public class NoteDaoImp implements NoteDao {
             sql += "ORDER BY N.createdDate ASC";
 
         TypedQuery<Note> query = sessionFactory.getCurrentSession().createQuery(sql, Note.class);
+        query.setFirstResult(first);
+        query.setMaxResults(last);
         return query.getResultList();
     }
 
     @Override
-    public long getNoteCount() {
-        return sessionFactory.getCurrentSession().createQuery("SELECT COUNT(*) FROM Note",
-                Long.class).getSingleResult();
+    public long getNoteCount(String filter) {
+        String sql = "SELECT COUNT(*) FROM Note ";
+        if (filter.equals("DONE"))
+            sql += "WHERE done = 1";
+        else if (filter.equals("NOT_DONE"))
+            sql += "WHERE done = 0";
+        return sessionFactory.getCurrentSession().createQuery(sql, Long.class).getSingleResult();
     }
 }

@@ -19,12 +19,15 @@ import java.util.Map;
 @Controller
 public class NotesController {
 
+    private static final int NOTES_ON_PAGE = 10;
+
     @Autowired
     private NoteService noteService;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String showAllNotes(@CookieValue(name = "filterType", defaultValue = "ALL") String filterTypeCookie,
                                @CookieValue(name = "sort", defaultValue = "NEW") String dateSortCookie,
+                               @RequestParam(name = "page", required = false, defaultValue = "1") String pageStr,
                                Model model, HttpServletResponse response) {
 
         if (!getFilterMap().containsKey(filterTypeCookie) || !getSortMap().containsKey(dateSortCookie)) {
@@ -32,8 +35,16 @@ public class NotesController {
             response.addCookie(new Cookie("sort", "NEW"));
             return "error";
         }
-        model.addAttribute("notes", noteService.getAllNotes(filterTypeCookie, dateSortCookie));
 
+        int pagesCount = (int)noteService.getNoteCount(filterTypeCookie) / NOTES_ON_PAGE + 1;
+        int pageNumber = Integer.parseInt(pageStr);
+        pageNumber = pageNumber > pagesCount ? pagesCount : pageNumber;
+        int lastRecord = NOTES_ON_PAGE * pageNumber;
+        int firstRecord = lastRecord - NOTES_ON_PAGE - 1;
+        model.addAttribute("notes", noteService.getAllNotes(filterTypeCookie, dateSortCookie,
+                firstRecord, lastRecord));
+
+        model.addAttribute("pageCount", pagesCount);
         model.addAttribute("currentFilter", filterTypeCookie);
         model.addAttribute("currentSort", dateSortCookie);
         model.addAttribute("filterMap", getFilterMap());
