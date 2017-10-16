@@ -36,13 +36,11 @@ public class NotesController {
             return "error";
         }
 
-        int pagesCount = (int)noteService.getNoteCount(filterTypeCookie) / NOTES_ON_PAGE + 1;
-        int pageNumber = Integer.parseInt(pageStr);
-        pageNumber = pageNumber > pagesCount ? pagesCount : pageNumber;
-        int lastRecord = NOTES_ON_PAGE * pageNumber;
-        int firstRecord = lastRecord - NOTES_ON_PAGE - 1;
+        int pagesCount = getPageCount(filterTypeCookie);
+        int pageNumber = getPageNumber(pageStr, pagesCount);
+        int firstRecord = (pageNumber - 1) * NOTES_ON_PAGE; // from 0
         model.addAttribute("notes", noteService.getAllNotes(filterTypeCookie, dateSortCookie,
-                firstRecord, lastRecord));
+                firstRecord, NOTES_ON_PAGE));
 
         model.addAttribute("pageCount", pagesCount);
         model.addAttribute("currentFilter", filterTypeCookie);
@@ -51,6 +49,17 @@ public class NotesController {
         model.addAttribute("sortMap", getSortMap());
         model.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
         return "index";
+    }
+
+    private int getPageCount(String filterType) {
+        int notesCount = (int) noteService.getNoteCount(filterType);
+        int pagesCount = notesCount / NOTES_ON_PAGE;
+        return notesCount % NOTES_ON_PAGE == 0 ? pagesCount : pagesCount + 1;
+    }
+
+    private int getPageNumber(String pageStr, int pagesCount) {
+        int pageNumber = Integer.parseInt(pageStr);
+        return pageNumber > pagesCount ? pagesCount : pageNumber;
     }
 
     @Bean

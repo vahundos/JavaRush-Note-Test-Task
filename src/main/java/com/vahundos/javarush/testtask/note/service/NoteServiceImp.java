@@ -40,8 +40,8 @@ public class NoteServiceImp implements NoteService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Note> getAllNotes(String filter, String sort, int first, int last) {
-        return noteDao.getAllNotes(filter, sort, first, last);
+    public List<Note> getAllNotes(String filter, String sort, int first, int count) {
+        return noteDao.getAllNotes(filter, sort, first, count);
     }
 
     @Transactional(readOnly = true)
